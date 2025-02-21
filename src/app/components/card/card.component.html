@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-label">
+    <p class="card-label__text">{{card().label}}</p>
+  </div>
+  @for (sentence of titleSentence(); let i = $index; track i) {
+    <h2 class="card__title d-inline" [class.color-highlight]="i">{{sentence}}</h2>
+    @if (!titleIsLong()) {
+      <br />
+    }
+  }
+  <p class="card__description text-white">{{card().description}}</p>
+</div>

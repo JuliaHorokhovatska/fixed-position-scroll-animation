@@ -1,0 +1,23 @@
+<div class="video-container">
+  <video #videoPlayer class="video" muted
+    [class.animate]="animate()" 
+    (timeupdate)="updateProgress()" 
+    (loadedmetadata)="setDuration()">
+    <source [src]="source()" type="video/mp4" />
+  </video>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button (click)="togglePlayPause()">
+      @if (isPlaying) {
+      pause
+      } @else {
+      play
+      }
+    </button>
+
+    <button (click)="toggleFullscreen()">
+      expand
+    </button>
+  </div>
+</div>

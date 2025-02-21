@@ -1,0 +1,50 @@
+@import "colors";
+
+body {
+  margin: 0;
+  background-color: $background;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.global-container {
+  max-width: 100%;
+  padding: 0 32px;
+  margin: 0 auto;
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-white {
+  color: $white;
+}
+
+.text-gray {
+  color: $gray;
+}
+
+.d-inline {
+  display: inline;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
