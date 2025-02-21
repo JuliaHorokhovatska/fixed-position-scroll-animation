@@ -23,9 +23,9 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit {
   source = input.required<string>();
   animate = input<boolean>(false);
 
-  isPlaying = false;
-  duration = 0;
-  currentTime = 0;
+  isPlaying: WritableSignal<boolean> = signal(false);
+  duration: WritableSignal<number> = signal(0);
+  currentTime: WritableSignal<number> = signal(0);
 
   videoIsReady: WritableSignal<boolean> = signal(false);
 
@@ -34,7 +34,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.["animate"]?.currentValue && this.videoIsReady()) {
-      this.videoPlayer.nativeElement.play();
+      this.togglePlayPause(true);
     }
   }
 
@@ -47,28 +47,28 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  togglePlayPause() {
+  togglePlayPause(value: boolean) {
     const video = this.videoPlayer.nativeElement;
 
-    if (video.paused) {
+    if (value) {
       video.play();
-      this.isPlaying = true;
+      this.isPlaying.set(true);
     } else {
       video.pause();
-      this.isPlaying = false;
+      this.isPlaying.set(false);
     }
   }
 
   updateProgress() {
-    this.currentTime = this.videoPlayer.nativeElement.currentTime;
+    this.currentTime.set(this.videoPlayer.nativeElement.currentTime);
+
+    if (this.videoPlayer.nativeElement.currentTime === this.videoPlayer.nativeElement.duration) {
+      this.isPlaying.set(false);
+    }
   }
 
   setDuration() {
-    this.duration = this.videoPlayer.nativeElement.duration;
-  }
-
-  seekVideo() {
-    this.videoPlayer.nativeElement.currentTime = this.currentTime;
+    this.duration.set(this.videoPlayer.nativeElement.duration);
   }
 
   toggleFullscreen() {

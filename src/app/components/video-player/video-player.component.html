@@ -8,13 +8,15 @@
 
   <!-- Controls -->
   <div class="controls d-flex justify-content-center align-items-center">
-    <button class="d-flex justify-content-center align-items-center" (click)="togglePlayPause()">
-      @if (isPlaying) {
+    @if (isPlaying()) {
+      <button class="d-flex justify-content-center align-items-center" (click)="togglePlayPause(false)">
         <img width="15" height="15" src="icons/circle-pause-regular.svg" alt="Pause" />
-      } @else {
+      </button>
+    } @else {
+      <button class="d-flex justify-content-center align-items-center" (click)="togglePlayPause(true)">
         <img width="15" height="15" src="icons/circle-play-regular.svg" alt="Play" />
-      }
-    </button>
+      </button>
+    }
 
     <button class="d-flex justify-content-center align-items-center" (click)="toggleFullscreen()">
       <img width="15" height="15" src="icons/expand-solid.svg" alt="Play" />
