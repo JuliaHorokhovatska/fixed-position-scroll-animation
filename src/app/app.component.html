@@ -1,7 +1,7 @@
 <div class="global-container">
   <div class="video-screen" 
     [ngStyle]="{'margin-bottom': 192 - ((stickyContainer.offsetHeight - videoContainer.offsetHeight) / 2) + 'px'}"
-    appVisible 
+    appIntersection
     appVisibleContainerPart 
     [partCount]="3"
     (visible)="onVisible($event, elements.video)"
@@ -32,7 +32,7 @@
   <div 
     class="text-screen d-flex justify-content-center" 
     [class.visible]="visibleElement() === elements.text"
-    appVisible 
+    appIntersection
     (visible)="onVisible($event, elements.text)">
     <p class="text-screen__text text-center" [@fadeInWords]="visibleElement() === elements.text ? 'start' : 'hidden'">
       @for (word of words; let i = $index; track i) {

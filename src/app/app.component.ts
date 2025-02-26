@@ -1,12 +1,13 @@
 import { Component, signal, WritableSignal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { VisibleDirective } from "./directives/visible.directive";
 import { VideoPlayerComponent } from "./components/video-player/video-player.component";
 import { CardComponent } from "./components/card/card.component";
 import { VisibleContainerPartDirective } from "./directives/visible-container-part.directive";
 import { FADE_IN_WORDS, ROLL_IN } from "./animations";
 import { CardTransformDirective } from "./directives/card-transform.directive";
+import { IntersectionDirective } from "./directives/intersection.directive";
+
 
 enum Elements {
   video = "video",
@@ -23,11 +24,11 @@ export interface Card {
   selector: "app-root",
   imports: [
     CommonModule,
-    VisibleDirective,
     VisibleContainerPartDirective,
     VideoPlayerComponent,
     CardComponent,
     CardTransformDirective,
+    IntersectionDirective,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",

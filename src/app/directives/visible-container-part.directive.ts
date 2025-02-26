@@ -15,10 +15,30 @@ export class VisibleContainerPartDirective {
   part = output<number>();
   transform = output<number>();
 
+  private lastCall = 0;
+
   constructor(private el: ElementRef) {}
 
   @HostListener("window:scroll", ["$event"])
   onWindowScroll() {
+    const throttleEmit = this.throttle(() => {
+      this.emitPartAndTransform();
+    }, 50);
+
+    throttleEmit();
+  }
+
+  throttle(func: Function, limit: number) {
+    return (...args: any[]) => {
+      const now = Date.now();
+      if (now - this.lastCall >= limit) {
+        this.lastCall = now;
+        func(...args);
+      }
+    };
+  }
+
+  emitPartAndTransform() {
     const viewHeight = Math.max(
       document.documentElement.clientHeight,
       window.innerHeight
