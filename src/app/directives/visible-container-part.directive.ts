@@ -1,41 +1,42 @@
 import {
+  DestroyRef,
   Directive,
   ElementRef,
-  HostListener,
+  Inject,
+  inject,
   input,
+  OnInit,
   output,
+  PLATFORM_ID,
 } from "@angular/core";
+import { fromEvent, throttleTime } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { isPlatformBrowser } from "@angular/common";
 
 @Directive({
   selector: "[appVisibleContainerPart]",
 })
-export class VisibleContainerPartDirective {
+export class VisibleContainerPartDirective implements OnInit {
   partCount = input.required<number>();
 
   part = output<number>();
   transform = output<number>();
 
-  private lastCall = 0;
+  private destroyRef = inject(DestroyRef);
 
-  constructor(private el: ElementRef) {}
+  constructor(
+    private el: ElementRef,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {}
 
-  @HostListener("window:scroll", ["$event"])
-  onWindowScroll() {
-    const throttleEmit = this.throttle(() => {
-      this.emitPartAndTransform();
-    }, 50);
+  ngOnInit() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
 
-    throttleEmit();
-  }
-
-  throttle(func: Function, limit: number) {
-    return (...args: any[]) => {
-      const now = Date.now();
-      if (now - this.lastCall >= limit) {
-        this.lastCall = now;
-        func(...args);
-      }
-    };
+    fromEvent(window, "scroll")
+      .pipe(takeUntilDestroyed(this.destroyRef), throttleTime(50))
+      .subscribe(() => this.emitPartAndTransform());
   }
 
   emitPartAndTransform() {
